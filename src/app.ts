@@ -1,6 +1,7 @@
 import { fastify, type FastifyInstance } from 'fastify';
 import { config, env } from './config.js';
 import { getLogger } from './log.js';
+import { dbPlugin } from './plugins/db.js';
 
 export function app() {
   return fastify({
@@ -14,8 +15,7 @@ export async function setup(app: FastifyInstance) {
   await app.register(import('@fastify/env'), config);
   app.log.info('[Plugin]: [@fastify/env] loaded');
 
-  // await app.register(helloPLugin);
-  // app.log.info('[Plugin]: [hello] loaded');
+  await app.register(dbPlugin);
 
   await app.ready();
   app.log.info('[App]: Ready');
