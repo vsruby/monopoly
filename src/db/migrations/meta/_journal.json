@@ -15,6 +15,13 @@
       "when": 1738014983784,
       "tag": "0001_gray_scrambler",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1738016833811,
+      "tag": "0002_useful_arachne",
+      "breakpoints": true
     }
   ]
 }

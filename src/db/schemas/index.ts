@@ -49,7 +49,7 @@ export const players = pgTable(
       .notNull(),
     updatedAt: timestamp('updated_at', { withTimezone: true }).$onUpdate(() => new Date()),
   },
-  (t) => [index().on(t.gameId), index().on(t.userId)]
+  (t) => [index().on(t.gameId), index().on(t.userId), uniqueIndex().on(t.gameId, t.userId)]
 );
 export const playerRelations = relations(players, ({ many, one }) => ({
   game: one(games, { fields: [players.gameId], references: [games.id] }),
