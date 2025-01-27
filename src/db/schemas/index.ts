@@ -12,6 +12,7 @@ import {
   varchar,
 } from 'drizzle-orm/pg-core';
 
+// -- GAME SCHEMA
 export const games = pgTable(
   'games',
   {
@@ -31,6 +32,7 @@ export const gameRelations = relations(games, ({ many, one }) => ({
   players: many(players),
 }));
 
+// -- PLAYER SCHEMA
 export const players = pgTable(
   'players',
   {
@@ -54,6 +56,7 @@ export const playerRelations = relations(players, ({ many, one }) => ({
   user: one(users, { fields: [players.userId], references: [users.id] }),
 }));
 
+// -- USER SCHEMA
 export const users = pgTable(
   'users',
   {

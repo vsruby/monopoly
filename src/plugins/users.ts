@@ -1,6 +1,5 @@
 import { FastifyPluginAsync } from 'fastify';
 import { FromSchema } from 'json-schema-to-ts';
-import { format } from 'path';
 import { users } from '../db/schemas/index.js';
 
 const createUserSchema = {
@@ -23,13 +22,14 @@ export const usersPlugin: FastifyPluginAsync = async (app) => {
   app.post<{ Body: CreateUserBody }>('/users', { schema: { body: createUserSchema } }, async (req, res) => {
     const { email, fullName } = req.body;
 
-    const user = await app.db.insert(users).values({ email, fullName }).returning({
+    const response = await app.db.insert(users).values({ email, fullName }).returning({
       id: users.id,
       email: users.email,
       fullName: users.fullName,
       createdAt: users.createdAt,
       updatedAt: users.updatedAt,
     });
+    const user = response[0];
 
     return res.status(201).send({ user });
   });
