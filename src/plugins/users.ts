@@ -2,7 +2,7 @@ import { FastifyPluginAsync } from 'fastify';
 import { FromSchema } from 'json-schema-to-ts';
 import { users } from '../db/schemas/index.js';
 
-const createUserSchema = {
+const createUserBodySchema = {
   type: 'object',
   properties: {
     email: { type: 'string', format: 'email' },
@@ -10,7 +10,16 @@ const createUserSchema = {
   },
   required: ['email', 'fullName'],
 } as const;
-type CreateUserBody = FromSchema<typeof createUserSchema>;
+type CreateUserBody = FromSchema<typeof createUserBodySchema>;
+
+const showUserParamSchema = {
+  type: 'object',
+  properties: {
+    id: { type: 'string', format: 'uuid' },
+  },
+  required: ['id'],
+} as const;
+type ShowUserParam = FromSchema<typeof showUserParamSchema>;
 
 export const usersPlugin: FastifyPluginAsync = async (app) => {
   app.get('/users', async (_req, res) => {
@@ -19,7 +28,21 @@ export const usersPlugin: FastifyPluginAsync = async (app) => {
     return res.status(200).send({ users });
   });
 
-  app.post<{ Body: CreateUserBody }>('/users', { schema: { body: createUserSchema } }, async (req, res) => {
+  app.get<{ Params: ShowUserParam }>('/users/:id', { schema: { params: showUserParamSchema } }, async (req, res) => {
+    const { id } = req.params;
+
+    const user = await app.db.query.users.findFirst({
+      where: (users, { eq }) => eq(users.id, id),
+    });
+
+    if (!user) {
+      return res.status(404).send({ error: 'User not found' });
+    }
+
+    return res.status(200).send({ user });
+  });
+
+  app.post<{ Body: CreateUserBody }>('/users', { schema: { body: createUserBodySchema } }, async (req, res) => {
     const { email, fullName } = req.body;
 
     const response = await app.db.insert(users).values({ email, fullName }).returning({
