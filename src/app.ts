@@ -2,7 +2,9 @@ import { fastify, type FastifyInstance } from 'fastify';
 import { config, env } from './config.js';
 import { getLogger } from './log.js';
 import { dbPlugin } from './plugins/db.js';
+import { gamesPlugin } from './plugins/games.js';
 import { usersPlugin } from './plugins/users.js';
+import { playersPlugin } from './plugins/players.js';
 
 export function app() {
   return fastify({
@@ -18,6 +20,9 @@ export async function setup(app: FastifyInstance) {
 
   await app.register(dbPlugin);
 
+  // register routes
+  await app.register(gamesPlugin);
+  await app.register(playersPlugin);
   await app.register(usersPlugin);
 
   await app.ready();
