@@ -12,6 +12,48 @@ import {
   varchar,
 } from 'drizzle-orm/pg-core';
 
+export const games = pgTable(
+  'games',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    hostId: uuid('host_id')
+      .notNull()
+      .references(() => users.id),
+    createdAt: timestamp('created_at', { withTimezone: true })
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).$onUpdate(() => new Date()),
+  },
+  (t) => [index().on(t.hostId)]
+);
+export const gameRelations = relations(games, ({ many, one }) => ({
+  host: one(users, { fields: [games.id], references: [users.id] }),
+  players: many(players),
+}));
+
+export const players = pgTable(
+  'players',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    gameId: uuid('game_id')
+      .notNull()
+      .references(() => games.id),
+    money: integer('money').notNull().default(1500),
+    userId: uuid('user_id')
+      .notNull()
+      .references(() => users.id),
+    createdAt: timestamp('created_at', { withTimezone: true })
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).$onUpdate(() => new Date()),
+  },
+  (t) => [index().on(t.gameId), index().on(t.userId)]
+);
+export const playerRelations = relations(players, ({ many, one }) => ({
+  game: one(games, { fields: [players.gameId], references: [games.id] }),
+  user: one(users, { fields: [players.userId], references: [users.id] }),
+}));
+
 export const users = pgTable(
   'users',
   {
@@ -25,3 +67,7 @@ export const users = pgTable(
   },
   (t) => [uniqueIndex().on(t.email)]
 );
+export const userRelations = relations(users, ({ many, one }) => ({
+  games: many(games),
+  players: many(players),
+}));
