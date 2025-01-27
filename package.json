@@ -1,0 +1,50 @@
+{
+  "name": "monopoly",
+  "version": "0.0.1",
+  "author": {
+    "email": "vsruby91@gmail.com",
+    "name": "Vince Ruby",
+    "url": "https://github.com/vsruby"
+  },
+  "description": "Monopoly technical challenge",
+  "scripts": {
+    "build": "rm -rf build && tsc --project tsconfig.build.json",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "start": "./env-copy.sh && tsx watch --clear-screen=false src",
+    "start:production": "NODE_ENV=production node build",
+    "test": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:run": "vitest run",
+    "test:ui": "vitest --ui"
+  },
+  "dependencies": {
+    "@fastify/env": "^5.0.2",
+    "close-with-grace": "^2.2.0",
+    "drizzle-orm": "^0.39.0",
+    "fastify": "^5.2.1",
+    "fastify-plugin": "^5.0.1",
+    "json-schema-to-ts": "^3.1.1",
+    "pino-pretty": "^13.0.0",
+    "postgres": "^3.4.5"
+  },
+  "devDependencies": {
+    "@tsconfig/node22": "^22.0.0",
+    "@types/node": "^22.10.10",
+    "@vitest/coverage-v8": "^3.0.4",
+    "@vitest/ui": "^3.0.4",
+    "drizzle-kit": "^0.30.3",
+    "msw": "^2.7.0",
+    "prettier": "^3.4.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3",
+    "vite": "^6.0.11",
+    "vitest": "^3.0.4",
+    "vitest-mock-extended": "^2.0.2"
+  },
+  "main": "index.js",
+  "type": "module",
+  "volta": {
+    "node": "22.13.1"
+  }
+}

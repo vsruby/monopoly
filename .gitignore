@@ -1,0 +1,14 @@
+.DS_Store
+node_modules/*
+build/*
+coverage/*
+.env
+.env.*
+!.env.example
+*.swp
+
+test/coverage
+test/junit.xml
+
+# VSCode
+**/.vscode
