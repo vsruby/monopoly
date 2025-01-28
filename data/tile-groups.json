@@ -1,0 +1,52 @@
+[
+  {
+    "id": "BROWN",
+    "name": "brown",
+    "type": "property"
+  },
+  {
+    "id": "DARK_BLUE",
+    "name": "dark_blue",
+    "type": "property"
+  },
+  {
+    "id": "GREEN",
+    "name": "green",
+    "type": "property"
+  },
+  {
+    "id": "LIGHT_BLUE",
+    "name": "light_blue",
+    "type": "property"
+  },
+  {
+    "id": "ORANGE",
+    "name": "orange",
+    "type": "property"
+  },
+  {
+    "id": "PINK",
+    "name": "pink",
+    "type": "property"
+  },
+  {
+    "id": "RAILROAD",
+    "name": "railroad",
+    "type": "railroad"
+  },
+  {
+    "id": "RED",
+    "name": "red",
+    "type": "property"
+  },
+  {
+    "id": "UTILITY",
+    "name": "utility",
+    "type": "utility"
+  },
+  {
+    "id": "YELLOW",
+    "name": "yellow",
+    "type": "property"
+  }
+]

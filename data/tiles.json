@@ -1,0 +1,322 @@
+[
+  {
+    "id": "GO",
+    "name": "GO",
+    "order": 0,
+    "price": null,
+    "type": "special",
+    "group": null
+  },
+  {
+    "id": "MEDITERRANEAN_AVENUE",
+    "name": "Mediterranean Avenue",
+    "order": 1,
+    "price": 60,
+    "type": "property",
+    "group": "brown"
+  },
+  {
+    "id": "COMMUNITY_CHEST_1",
+    "name": "Community Chest",
+    "order": 2,
+    "price": null,
+    "type": "special",
+    "group": null
+  },
+  {
+    "id": "BALTIC_AVENUE",
+    "name": "Baltic Avenue",
+    "order": 3,
+    "price": 60,
+    "type": "property",
+    "group": "brown"
+  },
+  {
+    "id": "INCOME_TAX",
+    "name": "Income Tax",
+    "order": 4,
+    "price": null,
+    "type": "tax",
+    "group": null
+  },
+  {
+    "id": "READING_RAILROAD",
+    "name": "Reading Railroad",
+    "order": 5,
+    "price": 200,
+    "type": "railroad",
+    "group": "railroad"
+  },
+  {
+    "id": "ORIENTAL_AVENUE",
+    "name": "Oriental Avenue",
+    "order": 6,
+    "price": 100,
+    "type": "property",
+    "group": "light_blue"
+  },
+  {
+    "id": "CHANCE_1",
+    "name": "Chance",
+    "order": 7,
+    "price": null,
+    "type": "special",
+    "group": null
+  },
+  {
+    "id": "VERMONT_AVENUE",
+    "name": "Vermont Avenue",
+    "order": 8,
+    "price": 100,
+    "type": "property",
+    "group": "light_blue"
+  },
+  {
+    "id": "CONNECTICUT_AVENUE",
+    "name": "Connecticut Avenue",
+    "order": 9,
+    "price": 120,
+    "type": "property",
+    "group": "light_blue"
+  },
+  {
+    "id": "JAIL",
+    "name": "Jail",
+    "order": 10,
+    "price": null,
+    "type": "special",
+    "group": null
+  },
+  {
+    "id": "ST_CHARLES_PLACE",
+    "name": "St. Charles Place",
+    "order": 11,
+    "price": 140,
+    "type": "property",
+    "group": "pink"
+  },
+  {
+    "id": "ELECTRIC_COMPANY",
+    "name": "Electric Company",
+    "order": 12,
+    "price": 150,
+    "type": "utility",
+    "group": "utility"
+  },
+  {
+    "id": "STATES_AVENUE",
+    "name": "States Avenue",
+    "order": 13,
+    "price": 140,
+    "type": "property",
+    "group": "pink"
+  },
+  {
+    "id": "VIRGINIA_AVENUE",
+    "name": "Virginia Avenue",
+    "order": 14,
+    "price": 160,
+    "type": "property",
+    "group": "pink"
+  },
+  {
+    "id": "PENNSYLVANIA_RAILROAD",
+    "name": "Pennsylvania Railroad",
+    "order": 15,
+    "price": 200,
+    "type": "railroad",
+    "group": "railroad"
+  },
+  {
+    "id": "ST_JAMES_PLACE",
+    "name": "St. James Place",
+    "order": 16,
+    "price": 180,
+    "type": "property",
+    "group": "orange"
+  },
+  {
+    "id": "COMMUNITY_CHEST_2",
+    "name": "Community Chest",
+    "order": 17,
+    "price": null,
+    "type": "special",
+    "group": null
+  },
+  {
+    "id": "TENNESSEE_AVENUE",
+    "name": "Tennessee Avenue",
+    "order": 18,
+    "price": 180,
+    "type": "property",
+    "group": "orange"
+  },
+  {
+    "id": "NEW_YORK_AVENUE",
+    "name": "New York Avenue",
+    "order": 19,
+    "price": 200,
+    "type": "property",
+    "group": "orange"
+  },
+  {
+    "id": "FREE_PARKING",
+    "name": "Free Parking",
+    "order": 20,
+    "price": null,
+    "type": "special",
+    "group": null
+  },
+  {
+    "id": "KENTUCKY_AVENUE",
+    "name": "Kentucky Avenue",
+    "order": 21,
+    "price": 220,
+    "type": "property",
+    "group": "red"
+  },
+  {
+    "id": "CHANCE_2",
+    "name": "Chance",
+    "order": 22,
+    "price": null,
+    "type": "special",
+    "group": null
+  },
+  {
+    "id": "INDIANA_AVENUE",
+    "name": "Indiana Avenue",
+    "order": 23,
+    "price": 220,
+    "type": "property",
+    "group": "red"
+  },
+  {
+    "id": "ILLINOIS_AVENUE",
+    "name": "Illinois Avenue",
+    "order": 24,
+    "price": 240,
+    "type": "property",
+    "group": "red"
+  },
+  {
+    "id": "B_AND_O_RAILROAD",
+    "name": "B&O Railroad",
+    "order": 25,
+    "price": 200,
+    "type": "railroad",
+    "group": "railroad"
+  },
+  {
+    "id": "ATLANTIC_AVENUE",
+    "name": "Atlantic Avenue",
+    "order": 26,
+    "price": 260,
+    "type": "property",
+    "group": "yellow"
+  },
+  {
+    "id": "VENTNOR_AVENUE",
+    "name": "Ventnor Avenue",
+    "order": 27,
+    "price": 260,
+    "type": "property",
+    "group": "yellow"
+  },
+  {
+    "id": "WATER_WORKS",
+    "name": "Water Works",
+    "order": 28,
+    "price": 150,
+    "type": "utility",
+    "group": "utility"
+  },
+  {
+    "id": "MARVIN_GARDENS",
+    "name": "Marvin Gardens",
+    "order": 29,
+    "price": 280,
+    "type": "property",
+    "group": "yellow"
+  },
+  {
+    "id": "GO_TO_JAIL",
+    "name": "Go To Jail",
+    "order": 30,
+    "price": null,
+    "type": "special",
+    "group": null
+  },
+  {
+    "id": "PACIFIC_AVENUE",
+    "name": "Pacific Avenue",
+    "order": 31,
+    "price": 300,
+    "type": "property",
+    "group": "green"
+  },
+  {
+    "id": "NORTH_CAROLINA_AVENUE",
+    "name": "North Carolina Avenue",
+    "order": 32,
+    "price": 300,
+    "type": "property",
+    "group": "green"
+  },
+  {
+    "id": "COMMUNITY_CHEST_3",
+    "name": "Community Chest",
+    "order": 33,
+    "price": null,
+    "type": "special",
+    "group": null
+  },
+  {
+    "id": "PENNSYLVANIA_AVENUE",
+    "name": "Pennsylvania Avenue",
+    "order": 34,
+    "price": 320,
+    "type": "property",
+    "group": "green"
+  },
+  {
+    "id": "SHORT_LINE",
+    "name": "Short Line",
+    "order": 35,
+    "price": 200,
+    "type": "railroad",
+    "group": "railroad"
+  },
+  {
+    "id": "CHANCE_3",
+    "name": "Chance",
+    "order": 22,
+    "price": null,
+    "type": "special",
+    "group": null
+  },
+  {
+    "id": "PARK_PLACE",
+    "name": "Park Place",
+    "order": 37,
+    "price": 350,
+    "type": "property",
+    "group": "dark_blue"
+  },
+  {
+    "id": "LUXURY_TAX",
+    "name": "Luxury Tax",
+    "order": 38,
+    "price": null,
+    "type": "tax",
+    "group": null
+  },
+  {
+    "id": "BOARDWALK",
+    "name": "Boardwalk",
+    "order": 39,
+    "price": 400,
+    "type": "property",
+    "group": "dark_blue"
+  }
+]
