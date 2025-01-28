@@ -1,8 +1,7 @@
 import { FastifyPluginAsync } from 'fastify';
 import { FromSchema } from 'json-schema-to-ts';
 import { games, players } from '../db/schemas/index.js';
-import { InferSelectModel } from 'drizzle-orm';
-import * as engine from '../engine.js';
+import { transformGame } from '../utils/transforms.js';
 
 const createGameBodySchema = {
   type: 'object',
@@ -27,7 +26,7 @@ export const gamesPlugin: FastifyPluginAsync = async (app) => {
   app.get('/games', async (_req, res) => {
     const games = await app.db.query.games.findMany();
 
-    return res.status(200).send({ games: games.map(transform) });
+    return res.status(200).send({ games: games.map(transformGame) });
   });
 
   // SHOW ROUTE
@@ -42,7 +41,7 @@ export const gamesPlugin: FastifyPluginAsync = async (app) => {
       return res.status(404).send({ error: 'Game not found' });
     }
 
-    return res.status(200).send({ game: transform(game) });
+    return res.status(200).send({ game: transformGame(game) });
   });
 
   // STORE ROUTE
@@ -62,41 +61,6 @@ export const gamesPlugin: FastifyPluginAsync = async (app) => {
     // NOTE: this is assuming that the host will also be one of the players
     await app.db.insert(players).values({ gameId: game.id, userId: hostId }).execute();
 
-    return res.status(201).send({ game: transform(game) });
+    return res.status(201).send({ game: transformGame(game) });
   });
-
-  // START ROUTE
-  // NOTE: this is using the same params as the show route but may need to have it's own in the future
-  app.post<{ Params: ShowGameParam }>(
-    '/games/:id/start',
-    { schema: { params: showGameParamSchema } },
-    async (req, res) => {
-      const { id } = req.params;
-
-      const game = await app.db.query.games.findFirst({
-        where: (games, { eq }) => eq(games.id, id),
-      });
-
-      // TODO: add more validations. ex. like if the game has enough players, or if the game is already started
-      if (!game) {
-        return res.status(404).send({ error: 'Game not found' });
-      }
-
-      engine.startGame(id, app);
-
-      return res.status(200).send({ game: transform(game) });
-    }
-  );
 };
-
-type Game = InferSelectModel<typeof games>;
-function transform(game: Game) {
-  return {
-    id: game.id,
-    hostId: game.hostId,
-    round: game.round,
-    state: game.state,
-    createdAt: game.createdAt,
-    updatedAt: game.updatedAt,
-  };
-}

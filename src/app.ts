@@ -5,6 +5,7 @@ import { dbPlugin } from './plugins/db.js';
 import { gamesPlugin } from './plugins/games.js';
 import { usersPlugin } from './plugins/users.js';
 import { playersPlugin } from './plugins/players.js';
+import { actionsPlugin } from './plugins/actions.js';
 
 export function app() {
   return fastify({
@@ -21,6 +22,7 @@ export async function setup(app: FastifyInstance) {
   await app.register(dbPlugin);
 
   // register regular routes
+  await app.register(actionsPlugin);
   await app.register(gamesPlugin);
   await app.register(playersPlugin);
   await app.register(usersPlugin);
