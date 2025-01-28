@@ -52,6 +52,7 @@ export const gamesPlugin: FastifyPluginAsync = async (app) => {
     const response = await app.db.insert(games).values({ hostId }).returning({
       id: games.id,
       hostId: games.hostId,
+      round: games.round,
       state: games.state,
       createdAt: games.createdAt,
       updatedAt: games.updatedAt,
@@ -93,6 +94,7 @@ function transform(game: Game) {
   return {
     id: game.id,
     hostId: game.hostId,
+    round: game.round,
     state: game.state,
     createdAt: game.createdAt,
     updatedAt: game.updatedAt,
