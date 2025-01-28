@@ -1,4 +1,3 @@
-import { group } from 'console';
 import { sql, relations } from 'drizzle-orm';
 import {
   boolean,
@@ -42,6 +41,9 @@ export const players = pgTable(
   'players',
   {
     id: uuid('id').defaultRandom().primaryKey(),
+    avatar: varchar('avatar', {
+      enum: ['dog', 'hat', 'iron', 'racecar', 'ship', 'shoe', 'thimble', 'wheelbarrow'],
+    }),
     gameId: uuid('game_id')
       .notNull()
       .references(() => games.id),
