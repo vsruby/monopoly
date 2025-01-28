@@ -20,6 +20,9 @@ export const games = pgTable(
     hostId: uuid('host_id')
       .notNull()
       .references(() => users.id),
+    state: varchar('state', { enum: ['complete', 'pending', 'ongoing'] })
+      .notNull()
+      .default('pending'),
     createdAt: timestamp('created_at', { withTimezone: true })
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
@@ -42,6 +45,7 @@ export const players = pgTable(
       .notNull()
       .references(() => games.id),
     money: integer('money').notNull().default(1500),
+    order: integer('order').notNull().default(0),
     userId: uuid('user_id')
       .notNull()
       .references(() => users.id),
