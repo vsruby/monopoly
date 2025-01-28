@@ -30,6 +30,7 @@ export const games = pgTable(
 export const gameRelations = relations(games, ({ many, one }) => ({
   host: one(users, { fields: [games.id], references: [users.id] }),
   players: many(players),
+  turns: many(turns),
 }));
 
 // -- PLAYER SCHEMA
@@ -56,6 +57,28 @@ export const playerRelations = relations(players, ({ many, one }) => ({
   user: one(users, { fields: [players.userId], references: [users.id] }),
 }));
 
+// -- TURN SCHEMA
+export const turns = pgTable('turns', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  gameId: uuid('game_id')
+    .notNull()
+    .references(() => games.id),
+  isFinished: boolean('is_finished').notNull().default(false),
+  phase: varchar('phase').notNull(),
+  playerId: uuid('player_id')
+    .notNull()
+    .references(() => players.id),
+  round: integer('round').notNull(),
+  createdAt: timestamp('created_at', { withTimezone: true })
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).$onUpdate(() => new Date()),
+});
+export const turnRelations = relations(turns, ({ one }) => ({
+  game: one(games, { fields: [turns.gameId], references: [games.id] }),
+  player: one(players, { fields: [turns.playerId], references: [players.id] }),
+}));
+
 // -- USER SCHEMA
 export const users = pgTable(
   'users',
@@ -70,7 +93,8 @@ export const users = pgTable(
   },
   (t) => [uniqueIndex().on(t.email)]
 );
-export const userRelations = relations(users, ({ many, one }) => ({
+export const userRelations = relations(users, ({ many }) => ({
   games: many(games),
   players: many(players),
+  turns: many(turns),
 }));
