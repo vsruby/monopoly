@@ -1,6 +1,7 @@
 import { FastifyPluginAsync } from 'fastify';
 import { FromSchema } from 'json-schema-to-ts';
 import { games, players } from '../db/schemas/index.js';
+import { InferSelectModel } from 'drizzle-orm';
 
 const createGameBodySchema = {
   type: 'object',
@@ -24,7 +25,7 @@ export const gamesPlugin: FastifyPluginAsync = async (app) => {
   app.get('/games', async (_req, res) => {
     const games = await app.db.query.games.findMany();
 
-    return res.status(200).send({ games });
+    return res.status(200).send({ games: games.map(transform) });
   });
 
   app.get<{ Params: ShowGameParam }>('/games/:id', { schema: { params: showGameParamSchema } }, async (req, res) => {
@@ -38,7 +39,7 @@ export const gamesPlugin: FastifyPluginAsync = async (app) => {
       return res.status(404).send({ error: 'Game not found' });
     }
 
-    return res.status(200).send({ game });
+    return res.status(200).send({ game: transform(game) });
   });
 
   app.post<{ Body: CreateGameBody }>('/games', { schema: { body: createGameBodySchema } }, async (req, res) => {
@@ -47,21 +48,26 @@ export const gamesPlugin: FastifyPluginAsync = async (app) => {
     const response = await app.db.insert(games).values({ hostId }).returning({
       id: games.id,
       hostId: games.hostId,
+      state: games.state,
       createdAt: games.createdAt,
       updatedAt: games.updatedAt,
     });
     const game = response[0];
 
     // NOTE: this is assuming that the host will also be one of the players
-    await app.db.insert(players).values({ gameId: game.id, userId: hostId }).returning({
-      id: players.id,
-      gameId: players.gameId,
-      userId: players.userId,
-      money: players.money,
-      createdAt: players.createdAt,
-      updatedAt: players.updatedAt,
-    });
+    await app.db.insert(players).values({ gameId: game.id, userId: hostId }).execute();
 
-    return res.status(201).send({ game });
+    return res.status(201).send({ game: transform(game) });
   });
 };
+
+type Game = InferSelectModel<typeof games>;
+function transform(game: Game) {
+  return {
+    id: game.id,
+    hostId: game.hostId,
+    state: game.state,
+    createdAt: game.createdAt,
+    updatedAt: game.updatedAt,
+  };
+}
