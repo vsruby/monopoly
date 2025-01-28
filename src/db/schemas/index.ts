@@ -1,4 +1,4 @@
-import { sql, relations } from 'drizzle-orm';
+import { sql, relations, min, max, is } from 'drizzle-orm';
 import {
   boolean,
   date,
@@ -11,6 +11,34 @@ import {
   uuid,
   varchar,
 } from 'drizzle-orm/pg-core';
+
+// -- DEED SCHEMA
+export const deeds = pgTable(
+  'deeds',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    gameId: uuid('game_id')
+      .notNull()
+      .references(() => games.id),
+    hasHotel: boolean('has_hotel').notNull().default(false),
+    houseCount: integer('house_count').notNull().default(0),
+    isMortgaged: boolean('is_mortgaged').notNull().default(false),
+    ownerId: uuid('owner_id').references(() => players.id),
+    tileId: varchar('tile_id')
+      .notNull()
+      .references(() => tiles.id),
+    createdAt: timestamp('created_at', { withTimezone: true })
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).$onUpdate(() => new Date()),
+  },
+  (t) => [index().on(t.gameId), index().on(t.ownerId), index().on(t.tileId)]
+);
+export const deedRelations = relations(deeds, ({ one }) => ({
+  game: one(games, { fields: [deeds.gameId], references: [games.id] }),
+  owner: one(players, { fields: [deeds.ownerId], references: [players.id] }),
+  tile: one(tiles, { fields: [deeds.tileId], references: [tiles.id] }),
+}));
 
 // -- GAME SCHEMA
 export const games = pgTable(
@@ -31,6 +59,7 @@ export const games = pgTable(
   (t) => [index().on(t.hostId)]
 );
 export const gameRelations = relations(games, ({ many, one }) => ({
+  deeds: many(deeds),
   host: one(users, { fields: [games.id], references: [users.id] }),
   players: many(players),
   turns: many(turns),
@@ -60,6 +89,7 @@ export const players = pgTable(
   (t) => [index().on(t.gameId), index().on(t.userId), uniqueIndex().on(t.gameId, t.userId)]
 );
 export const playerRelations = relations(players, ({ many, one }) => ({
+  deed: many(deeds),
   game: one(games, { fields: [players.gameId], references: [games.id] }),
   user: one(users, { fields: [players.userId], references: [users.id] }),
 }));
@@ -93,7 +123,8 @@ export const tiles = pgTable(
   },
   (t) => [index().on(t.type), index().on(t.order)]
 );
-export const tileRelations = relations(tiles, ({ one }) => ({
+export const tileRelations = relations(tiles, ({ many, one }) => ({
+  deeds: many(deeds),
   group: one(tileGroups, { fields: [tiles.groupId], references: [tileGroups.id] }),
 }));
 
