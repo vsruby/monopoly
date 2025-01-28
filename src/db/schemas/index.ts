@@ -135,6 +135,7 @@ export const tileRelations = relations(tiles, ({ many, one }) => ({
 // -- TURN SCHEMA
 export const turns = pgTable('turns', {
   id: uuid('id').defaultRandom().primaryKey(),
+  endTileId: varchar('ended_on_tile_id').references(() => tiles.id),
   gameId: uuid('game_id')
     .notNull()
     .references(() => games.id),
@@ -144,14 +145,17 @@ export const turns = pgTable('turns', {
     .notNull()
     .references(() => players.id),
   round: integer('round').notNull(),
+  startTileId: varchar('started_on_tile_id').references(() => tiles.id),
   createdAt: timestamp('created_at', { withTimezone: true })
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
   updatedAt: timestamp('updated_at', { withTimezone: true }).$onUpdate(() => new Date()),
 });
 export const turnRelations = relations(turns, ({ one }) => ({
+  endTile: one(tiles, { fields: [turns.endTileId], references: [tiles.id] }),
   game: one(games, { fields: [turns.gameId], references: [games.id] }),
   player: one(players, { fields: [turns.playerId], references: [players.id] }),
+  startTile: one(tiles, { fields: [turns.startTileId], references: [tiles.id] }),
 }));
 
 // -- USER SCHEMA
