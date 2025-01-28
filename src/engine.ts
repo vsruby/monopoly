@@ -36,7 +36,7 @@ export async function startGame(id: string, app: FastifyInstance) {
     const randomIndex = Math.floor(Math.random() * avatarsCopy.length);
     const avatar = avatarsCopy[randomIndex];
 
-    await app.db.update(players).set({ avatar: avatar, order }).where(eq(players.id, player.id));
+    await app.db.update(players).set({ avatar: avatar, currentTileId: 'GO', order }).where(eq(players.id, player.id));
 
     avatarsCopy.splice(randomIndex, 1);
     order++;
@@ -46,3 +46,6 @@ export async function startGame(id: string, app: FastifyInstance) {
   const firstPlayer = game.players.find((player) => player.order === 0)!;
   await app.db.insert(turns).values({ gameId: game.id, phase: 'pending', playerId: firstPlayer.id, round: 1 });
 }
+
+// move
+// purchase tile

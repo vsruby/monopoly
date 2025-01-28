@@ -48,6 +48,7 @@ export const games = pgTable(
     hostId: uuid('host_id')
       .notNull()
       .references(() => users.id),
+    round: integer('round').notNull().default(1),
     state: varchar('state', { enum: ['complete', 'pending', 'ongoing'] })
       .notNull()
       .default('pending'),
@@ -73,6 +74,7 @@ export const players = pgTable(
     avatar: varchar('avatar', {
       enum: ['dog', 'hat', 'iron', 'racecar', 'ship', 'shoe', 'thimble', 'wheelbarrow'],
     }),
+    currentTileId: varchar('current_tile_id').references(() => tiles.id),
     gameId: uuid('game_id')
       .notNull()
       .references(() => games.id),
@@ -91,6 +93,7 @@ export const players = pgTable(
 export const playerRelations = relations(players, ({ many, one }) => ({
   deed: many(deeds),
   game: one(games, { fields: [players.gameId], references: [games.id] }),
+  tile: one(tiles, { fields: [players.currentTileId], references: [tiles.id] }),
   user: one(users, { fields: [players.userId], references: [users.id] }),
 }));
 
@@ -106,6 +109,7 @@ export const tileGroups = pgTable(
   (t) => [index().on(t.type)]
 );
 export const tileGroupRelations = relations(tileGroups, ({ many }) => ({
+  players: many(players),
   tiles: many(tiles),
 }));
 
