@@ -13,7 +13,7 @@
     "order": 1,
     "price": 60,
     "type": "property",
-    "group": "brown"
+    "group": "BROWN"
   },
   {
     "id": "COMMUNITY_CHEST_1",
@@ -29,7 +29,7 @@
     "order": 3,
     "price": 60,
     "type": "property",
-    "group": "brown"
+    "group": "BROWN"
   },
   {
     "id": "INCOME_TAX",
@@ -45,7 +45,7 @@
     "order": 5,
     "price": 200,
     "type": "railroad",
-    "group": "railroad"
+    "group": "RAILROAD"
   },
   {
     "id": "ORIENTAL_AVENUE",
@@ -53,7 +53,7 @@
     "order": 6,
     "price": 100,
     "type": "property",
-    "group": "light_blue"
+    "group": "LIGHT_BLUE"
   },
   {
     "id": "CHANCE_1",
@@ -69,7 +69,7 @@
     "order": 8,
     "price": 100,
     "type": "property",
-    "group": "light_blue"
+    "group": "LIGHT_BLUE"
   },
   {
     "id": "CONNECTICUT_AVENUE",
@@ -77,7 +77,7 @@
     "order": 9,
     "price": 120,
     "type": "property",
-    "group": "light_blue"
+    "group": "LIGHT_BLUE"
   },
   {
     "id": "JAIL",
@@ -93,7 +93,7 @@
     "order": 11,
     "price": 140,
     "type": "property",
-    "group": "pink"
+    "group": "PINK"
   },
   {
     "id": "ELECTRIC_COMPANY",
@@ -101,7 +101,7 @@
     "order": 12,
     "price": 150,
     "type": "utility",
-    "group": "utility"
+    "group": "UTILITY"
   },
   {
     "id": "STATES_AVENUE",
@@ -109,7 +109,7 @@
     "order": 13,
     "price": 140,
     "type": "property",
-    "group": "pink"
+    "group": "PINK"
   },
   {
     "id": "VIRGINIA_AVENUE",
@@ -117,7 +117,7 @@
     "order": 14,
     "price": 160,
     "type": "property",
-    "group": "pink"
+    "group": "PINK"
   },
   {
     "id": "PENNSYLVANIA_RAILROAD",
@@ -125,7 +125,7 @@
     "order": 15,
     "price": 200,
     "type": "railroad",
-    "group": "railroad"
+    "group": "RAILROAD"
   },
   {
     "id": "ST_JAMES_PLACE",
@@ -133,7 +133,7 @@
     "order": 16,
     "price": 180,
     "type": "property",
-    "group": "orange"
+    "group": "ORANGE"
   },
   {
     "id": "COMMUNITY_CHEST_2",
@@ -149,7 +149,7 @@
     "order": 18,
     "price": 180,
     "type": "property",
-    "group": "orange"
+    "group": "ORANGE"
   },
   {
     "id": "NEW_YORK_AVENUE",
@@ -157,7 +157,7 @@
     "order": 19,
     "price": 200,
     "type": "property",
-    "group": "orange"
+    "group": "ORANGE"
   },
   {
     "id": "FREE_PARKING",
@@ -173,7 +173,7 @@
     "order": 21,
     "price": 220,
     "type": "property",
-    "group": "red"
+    "group": "RED"
   },
   {
     "id": "CHANCE_2",
@@ -189,7 +189,7 @@
     "order": 23,
     "price": 220,
     "type": "property",
-    "group": "red"
+    "group": "RED"
   },
   {
     "id": "ILLINOIS_AVENUE",
@@ -197,7 +197,7 @@
     "order": 24,
     "price": 240,
     "type": "property",
-    "group": "red"
+    "group": "RED"
   },
   {
     "id": "B_AND_O_RAILROAD",
@@ -205,7 +205,7 @@
     "order": 25,
     "price": 200,
     "type": "railroad",
-    "group": "railroad"
+    "group": "RAILROAD"
   },
   {
     "id": "ATLANTIC_AVENUE",
@@ -213,7 +213,7 @@
     "order": 26,
     "price": 260,
     "type": "property",
-    "group": "yellow"
+    "group": "YELLOW"
   },
   {
     "id": "VENTNOR_AVENUE",
@@ -221,7 +221,7 @@
     "order": 27,
     "price": 260,
     "type": "property",
-    "group": "yellow"
+    "group": "YELLOW"
   },
   {
     "id": "WATER_WORKS",
@@ -229,7 +229,7 @@
     "order": 28,
     "price": 150,
     "type": "utility",
-    "group": "utility"
+    "group": "UTILITY"
   },
   {
     "id": "MARVIN_GARDENS",
@@ -237,7 +237,7 @@
     "order": 29,
     "price": 280,
     "type": "property",
-    "group": "yellow"
+    "group": "YELLOW"
   },
   {
     "id": "GO_TO_JAIL",
@@ -253,7 +253,7 @@
     "order": 31,
     "price": 300,
     "type": "property",
-    "group": "green"
+    "group": "GREEN"
   },
   {
     "id": "NORTH_CAROLINA_AVENUE",
@@ -261,7 +261,7 @@
     "order": 32,
     "price": 300,
     "type": "property",
-    "group": "green"
+    "group": "GREEN"
   },
   {
     "id": "COMMUNITY_CHEST_3",
@@ -277,7 +277,7 @@
     "order": 34,
     "price": 320,
     "type": "property",
-    "group": "green"
+    "group": "GREEN"
   },
   {
     "id": "SHORT_LINE",
@@ -285,7 +285,7 @@
     "order": 35,
     "price": 200,
     "type": "railroad",
-    "group": "railroad"
+    "group": "RAILROAD"
   },
   {
     "id": "CHANCE_3",
@@ -301,7 +301,7 @@
     "order": 37,
     "price": 350,
     "type": "property",
-    "group": "dark_blue"
+    "group": "DARK_BLUE"
   },
   {
     "id": "LUXURY_TAX",
@@ -317,6 +317,6 @@
     "order": 39,
     "price": 400,
     "type": "property",
-    "group": "dark_blue"
+    "group": "DARK_BLUE"
   }
 ]
