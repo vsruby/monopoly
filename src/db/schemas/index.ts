@@ -1,3 +1,4 @@
+import { group } from 'console';
 import { sql, relations } from 'drizzle-orm';
 import {
   boolean,
@@ -59,6 +60,39 @@ export const players = pgTable(
 export const playerRelations = relations(players, ({ many, one }) => ({
   game: one(games, { fields: [players.gameId], references: [games.id] }),
   user: one(users, { fields: [players.userId], references: [users.id] }),
+}));
+
+// -- TILE GROUP SCHEMA
+export const tileGroups = pgTable(
+  'tile_groups',
+  {
+    id: varchar().primaryKey(),
+    name: varchar('name').notNull(),
+    type: varchar('type', { enum: ['property', 'railroad', 'utility'] }).notNull(),
+    // just lookup table, doesn't need timestamps
+  },
+  (t) => [index().on(t.type)]
+);
+export const tileGroupRelations = relations(tileGroups, ({ many }) => ({
+  tiles: many(tiles),
+}));
+
+// -- TILE SCHEMA
+export const tiles = pgTable(
+  'tiles',
+  {
+    id: varchar().primaryKey(),
+    groupId: varchar('group_id').references(() => tileGroups.id),
+    name: varchar('name').notNull(),
+    order: integer('order').notNull(),
+    price: integer('price'),
+    type: varchar('type', { enum: ['property', 'railroad', 'special', 'tax', 'utility'] }).notNull(),
+    // just lookup table, doesn't need timestamps
+  },
+  (t) => [index().on(t.type), index().on(t.order)]
+);
+export const tileRelations = relations(tiles, ({ one }) => ({
+  group: one(tileGroups, { fields: [tiles.groupId], references: [tileGroups.id] }),
 }));
 
 // -- TURN SCHEMA

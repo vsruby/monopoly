@@ -36,6 +36,20 @@
       "when": 1738024015824,
       "tag": "0004_cooing_firedrake",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1738032672306,
+      "tag": "0005_hot_gauntlet",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1738034982886,
+      "tag": "0006_robust_punisher",
+      "breakpoints": true
     }
   ]
 }

@@ -20,7 +20,7 @@ export async function setup(app: FastifyInstance) {
 
   await app.register(dbPlugin);
 
-  // register routes
+  // register regular routes
   await app.register(gamesPlugin);
   await app.register(playersPlugin);
   await app.register(usersPlugin);

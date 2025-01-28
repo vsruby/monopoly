@@ -11,6 +11,7 @@
     "build": "rm -rf build && tsc --project tsconfig.build.json",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
+    "import-data": "tsx ./src/scripts/import-data.ts",
     "start": "./env-copy.sh && tsx watch --clear-screen=false src",
     "start:production": "NODE_ENV=production node build",
     "test": "vitest",

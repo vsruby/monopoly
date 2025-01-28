@@ -22,12 +22,14 @@ const showGameParamSchema = {
 type ShowGameParam = FromSchema<typeof showGameParamSchema>;
 
 export const gamesPlugin: FastifyPluginAsync = async (app) => {
+  // INDEX ROUTE
   app.get('/games', async (_req, res) => {
     const games = await app.db.query.games.findMany();
 
     return res.status(200).send({ games: games.map(transform) });
   });
 
+  // SHOW ROUTE
   app.get<{ Params: ShowGameParam }>('/games/:id', { schema: { params: showGameParamSchema } }, async (req, res) => {
     const { id } = req.params;
 
@@ -42,6 +44,7 @@ export const gamesPlugin: FastifyPluginAsync = async (app) => {
     return res.status(200).send({ game: transform(game) });
   });
 
+  // STORE ROUTE
   app.post<{ Body: CreateGameBody }>('/games', { schema: { body: createGameBodySchema } }, async (req, res) => {
     const { hostId } = req.body;
 
