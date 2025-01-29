@@ -2,6 +2,7 @@ import { FastifyPluginAsync } from 'fastify';
 import { FromSchema } from 'json-schema-to-ts';
 import { games, players } from '../db/schemas/index.js';
 import { transformGame } from '../utils/transforms.js';
+import { is } from 'drizzle-orm';
 
 const createGameBodySchema = {
   type: 'object',
@@ -51,6 +52,8 @@ export const gamesPlugin: FastifyPluginAsync = async (app) => {
     const response = await app.db.insert(games).values({ hostId }).returning({
       id: games.id,
       hostId: games.hostId,
+      isGetOutOfJailChanceCardUsed: games.isGetOutOfJailChanceCardUsed,
+      isGetOutOfJailCommunityChestCardUsed: games.isGetOutOfJailCommunityChestCardUsed,
       round: games.round,
       state: games.state,
       createdAt: games.createdAt,
