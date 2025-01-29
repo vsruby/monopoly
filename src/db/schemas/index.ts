@@ -79,6 +79,7 @@ export const players = pgTable(
     gameId: uuid('game_id')
       .notNull()
       .references(() => games.id),
+    isBankrupt: boolean('is_bankrupt').notNull().default(false),
     isInJail: boolean('is_in_jail').notNull().default(false),
     money: integer('money').notNull().default(1500),
     order: integer('order').notNull().default(0),
