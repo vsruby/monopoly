@@ -63,6 +63,7 @@ export const gameRelations = relations(games, ({ many, one }) => ({
   deeds: many(deeds),
   host: one(users, { fields: [games.id], references: [users.id] }),
   players: many(players),
+  rolls: many(rolls),
   turns: many(turns),
 }));
 
@@ -94,6 +95,7 @@ export const players = pgTable(
 export const playerRelations = relations(players, ({ many, one }) => ({
   deed: many(deeds),
   game: one(games, { fields: [players.gameId], references: [games.id] }),
+  rolls: many(rolls),
   tile: one(tiles, { fields: [players.currentTileId], references: [tiles.id] }),
   turns: many(turns),
   user: one(users, { fields: [players.userId], references: [users.id] }),
@@ -123,6 +125,11 @@ export const rolls = pgTable(
   },
   (t) => [index().on(t.gameId), index().on(t.kind), index().on(t.playerId), index().on(t.turnId)]
 );
+export const rollRelations = relations(rolls, ({ one }) => ({
+  game: one(games, { fields: [rolls.gameId], references: [games.id] }),
+  player: one(players, { fields: [rolls.playerId], references: [players.id] }),
+  turn: one(turns, { fields: [rolls.turnId], references: [turns.id] }),
+}));
 
 // -- TILE GROUP SCHEMA
 export const tileGroups = pgTable(
