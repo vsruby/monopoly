@@ -94,8 +94,34 @@ export const playerRelations = relations(players, ({ many, one }) => ({
   deed: many(deeds),
   game: one(games, { fields: [players.gameId], references: [games.id] }),
   tile: one(tiles, { fields: [players.currentTileId], references: [tiles.id] }),
+  turns: many(turns),
   user: one(users, { fields: [players.userId], references: [users.id] }),
 }));
+
+// -- ROLL SCHEMA
+export const rolls = pgTable(
+  'rolls',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    die1: integer('die1').notNull(),
+    die2: integer('die2').notNull(),
+    gameId: uuid('game_id')
+      .notNull()
+      .references(() => games.id),
+    kind: varchar('kind', { enum: ['get_out_of_jail', 'movement'] }).notNull(),
+    playerId: uuid('player_id')
+      .notNull()
+      .references(() => players.id),
+    total: integer('total').notNull(),
+    turnId: uuid('turn_id')
+      .notNull()
+      .references(() => turns.id),
+    createdAt: timestamp('created_at', { withTimezone: true })
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull(),
+  },
+  (t) => [index().on(t.gameId), index().on(t.kind), index().on(t.playerId), index().on(t.turnId)]
+);
 
 // -- TILE GROUP SCHEMA
 export const tileGroups = pgTable(
@@ -151,10 +177,11 @@ export const turns = pgTable('turns', {
     .notNull(),
   updatedAt: timestamp('updated_at', { withTimezone: true }).$onUpdate(() => new Date()),
 });
-export const turnRelations = relations(turns, ({ one }) => ({
+export const turnRelations = relations(turns, ({ many, one }) => ({
   endTile: one(tiles, { fields: [turns.endTileId], references: [tiles.id] }),
   game: one(games, { fields: [turns.gameId], references: [games.id] }),
   player: one(players, { fields: [turns.playerId], references: [players.id] }),
+  rolls: many(rolls),
   startTile: one(tiles, { fields: [turns.startTileId], references: [tiles.id] }),
 }));
 
@@ -175,5 +202,4 @@ export const users = pgTable(
 export const userRelations = relations(users, ({ many }) => ({
   games: many(games),
   players: many(players),
-  turns: many(turns),
 }));
