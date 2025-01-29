@@ -1,9 +1,7 @@
 import { FastifyPluginAsync } from 'fastify';
 import { FromSchema } from 'json-schema-to-ts';
-// import { games, players } from '../db/schemas/index.js';
-// import { InferSelectModel } from 'drizzle-orm';
 import * as engine from '../engine.js';
-import { transformGame } from '../utils/transforms.js';
+import { transformGame, transformPlayer, transformTurn } from '../utils/transforms.js';
 
 const startGameParamSchema = {
   type: 'object',
@@ -15,7 +13,55 @@ const startGameParamSchema = {
 type StartGameParam = FromSchema<typeof startGameParamSchema>;
 
 export const actionsPlugin: FastifyPluginAsync = async (app) => {
-  // START ROUTE
+  // MOVE
+  app.post<{ Params: StartGameParam }>(
+    '/player-move/:id',
+    { schema: { params: startGameParamSchema } },
+    async (req, res) => {
+      const { id } = req.params;
+
+      try {
+        await engine.playerMove(id, app);
+      } catch (error) {
+        app.log.error(error, 'Error moving player');
+
+        if (error instanceof Error) {
+          if (error.message === 'Player not found') {
+            return res.status(404).send({ error: error.message });
+          }
+          if (error.message === 'Game is not ongoing') {
+            return res.status(400).send({ error: error.message });
+          }
+          if (error.message === "Not this player's turn yet") {
+            return res.status(400).send({ error: error.message });
+          }
+          if (error.message === 'Player is in jail') {
+            return res.status(400).send({ error: error.message });
+          }
+        }
+
+        return res.status(500).send({ error: 'Internal server error' });
+      }
+
+      const player = await app.db.query.players.findFirst({
+        where: (players, { eq }) => eq(players.id, id),
+        with: {
+          game: true,
+          turns: true,
+        },
+      });
+
+      return res.status(200).send({
+        player: {
+          ...transformPlayer(player!),
+          game: transformGame(player!.game),
+          turns: player!.turns.map(transformTurn),
+        },
+      });
+    }
+  );
+
+  // START GAME
   app.post<{ Params: StartGameParam }>(
     '/start-game/:id',
     { schema: { params: startGameParamSchema } },
@@ -31,7 +77,7 @@ export const actionsPlugin: FastifyPluginAsync = async (app) => {
         return res.status(404).send({ error: 'Game not found' });
       }
 
-      engine.startGame(id, app);
+      await engine.startGame(id, app);
 
       return res.status(200).send({ game: transformGame(game) });
     }
