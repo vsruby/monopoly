@@ -74,12 +74,12 @@ Which will copy the values of `.env.example` to a new `.env` file if none exist
 
 Key configurations include:
 
-- PORT: The port the server will listen on
-- POSTGRES_DB: Name of the database
-- POSTGRES_HOST: Hostname of your database (e.g., localhost or the name of your Docker service)
-- POSTGRES_PASSWORD: Password for the database
-- POSTGRES_PORT: Port number the database is listening on
-- POSTGRES_USER: Username for the database
+- `PORT`: The port the server will listen on
+- `POSTGRES_DB`: Name of the database
+- `POSTGRES_HOST`: Hostname of your database (e.g., localhost or the name of your Docker service)
+- `POSTGRES_PASSWORD`: Password for the database
+- `POSTGRES_PORT`: Port number the database is listening on
+- `POSTGRES_USER`: Username for the database
 
 ## Running the Application
 
