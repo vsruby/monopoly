@@ -13,20 +13,28 @@ import {
 } from 'drizzle-orm/pg-core';
 
 // CHANCE SCHEMA
-export const chances = pgTable('chances', {
-  id: varchar().primaryKey(),
-  description: text('description').notNull(),
-  isGetOutOfJail: boolean('is_get_out_of_jail').notNull().default(false),
-  name: varchar('name').notNull(),
-});
+export const chances = pgTable(
+  'chances',
+  {
+    id: varchar().primaryKey(),
+    description: text('description').notNull(),
+    isGetOutOfJail: boolean('is_get_out_of_jail').notNull().default(false),
+    name: varchar('name').notNull(),
+  },
+  (t) => [index().on(t.isGetOutOfJail)]
+);
 
 // COMMUNITY CHEST SCHEMA
-export const communityChests = pgTable('community_chests', {
-  id: varchar().primaryKey(),
-  description: text('description').notNull(),
-  isGetOutOfJail: boolean('is_get_out_of_jail').notNull().default(false),
-  name: varchar('name').notNull(),
-});
+export const communityChests = pgTable(
+  'community_chests',
+  {
+    id: varchar().primaryKey(),
+    description: text('description').notNull(),
+    isGetOutOfJail: boolean('is_get_out_of_jail').notNull().default(false),
+    name: varchar('name').notNull(),
+  },
+  (t) => [index().on(t.isGetOutOfJail)]
+);
 
 // -- DEED SCHEMA
 export const deeds = pgTable(
@@ -64,6 +72,10 @@ export const games = pgTable(
     hostId: uuid('host_id')
       .notNull()
       .references(() => users.id),
+    isGetOutOfJailChanceCardUsed: boolean('is_get_out_of_jail_chance_card_used').notNull().default(false),
+    isGetOutOfJailCommunityChestCardUsed: boolean('is_get_out_of_jail_community_chest_card_used')
+      .notNull()
+      .default(false),
     round: integer('round').notNull().default(1),
     state: varchar('state', { enum: ['complete', 'pending', 'ongoing'] })
       .notNull()
@@ -95,6 +107,8 @@ export const players = pgTable(
     gameId: uuid('game_id')
       .notNull()
       .references(() => games.id),
+    hasGetOutofJailChanceCard: boolean('has_get_out_of_jail_chance_card').notNull().default(false),
+    hasGetOutofJailCommunityChestCard: boolean('has_get_out_of_jail_community_chest_card').notNull().default(false),
     isBankrupt: boolean('is_bankrupt').notNull().default(false),
     isInJail: boolean('is_in_jail').notNull().default(false),
     money: integer('money').notNull().default(1500),
@@ -107,7 +121,13 @@ export const players = pgTable(
       .notNull(),
     updatedAt: timestamp('updated_at', { withTimezone: true }).$onUpdate(() => new Date()),
   },
-  (t) => [index().on(t.gameId), index().on(t.userId), uniqueIndex().on(t.gameId, t.userId)]
+  (t) => [
+    index().on(t.gameId),
+    index().on(t.hasGetOutofJailChanceCard),
+    index().on(t.hasGetOutofJailCommunityChestCard),
+    index().on(t.userId),
+    uniqueIndex().on(t.gameId, t.userId),
+  ]
 );
 export const playerRelations = relations(players, ({ many, one }) => ({
   deed: many(deeds),
