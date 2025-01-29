@@ -12,6 +12,22 @@ import {
   varchar,
 } from 'drizzle-orm/pg-core';
 
+// CHANCE SCHEMA
+export const chances = pgTable('chances', {
+  id: varchar().primaryKey(),
+  description: text('description').notNull(),
+  isGetOutOfJail: boolean('is_get_out_of_jail').notNull().default(false),
+  name: varchar('name').notNull(),
+});
+
+// COMMUNITY CHEST SCHEMA
+export const communityChests = pgTable('community_chests', {
+  id: varchar().primaryKey(),
+  description: text('description').notNull(),
+  isGetOutOfJail: boolean('is_get_out_of_jail').notNull().default(false),
+  name: varchar('name').notNull(),
+});
+
 // -- DEED SCHEMA
 export const deeds = pgTable(
   'deeds',
