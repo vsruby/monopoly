@@ -12,7 +12,7 @@ import {
   varchar,
 } from 'drizzle-orm/pg-core';
 
-// CHANCE SCHEMA
+// -- CHANCE SCHEMA
 export const chances = pgTable(
   'chances',
   {
@@ -23,8 +23,11 @@ export const chances = pgTable(
   },
   (t) => [index().on(t.isGetOutOfJail)]
 );
+export const chanceRelations = relations(chances, ({ many }) => ({
+  drawnChances: many(drawnChances),
+}));
 
-// COMMUNITY CHEST SCHEMA
+// -- COMMUNITY CHEST SCHEMA
 export const communityChests = pgTable(
   'community_chests',
   {
@@ -35,6 +38,59 @@ export const communityChests = pgTable(
   },
   (t) => [index().on(t.isGetOutOfJail)]
 );
+export const communityChestRelations = relations(communityChests, ({ many }) => ({
+  drawnCommunityChests: many(drawnCommunityChests),
+}));
+
+// -- DRAWN CHANCE SCHEMA
+
+export const drawnChances = pgTable(
+  'drawn_chances',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    chanceId: varchar('chance_id')
+      .notNull()
+      .references(() => chances.id),
+    gameId: uuid('game_id')
+      .notNull()
+      .references(() => games.id),
+    createdAt: timestamp('created_at', { withTimezone: true })
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).$onUpdate(() => new Date()),
+  },
+  (t) => [index().on(t.chanceId), index().on(t.gameId)]
+);
+export const drawnChanceRelations = relations(drawnChances, ({ one }) => ({
+  chance: one(chances, { fields: [drawnChances.chanceId], references: [chances.id] }),
+  game: one(games, { fields: [drawnChances.gameId], references: [games.id] }),
+}));
+
+// -- DRAWN COMMUNITY CHEST SCHEMA
+export const drawnCommunityChests = pgTable(
+  'drawn_community_chests',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    communityChestId: varchar('community_chest_id')
+      .notNull()
+      .references(() => communityChests.id),
+    gameId: uuid('game_id')
+      .notNull()
+      .references(() => games.id),
+    createdAt: timestamp('created_at', { withTimezone: true })
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).$onUpdate(() => new Date()),
+  },
+  (t) => [index().on(t.communityChestId), index().on(t.gameId)]
+);
+export const drawnCommunityChestRelations = relations(drawnCommunityChests, ({ one }) => ({
+  communityChest: one(communityChests, {
+    fields: [drawnCommunityChests.communityChestId],
+    references: [communityChests.id],
+  }),
+  game: one(games, { fields: [drawnCommunityChests.gameId], references: [games.id] }),
+}));
 
 // -- DEED SCHEMA
 export const deeds = pgTable(
@@ -89,6 +145,8 @@ export const games = pgTable(
 );
 export const gameRelations = relations(games, ({ many, one }) => ({
   deeds: many(deeds),
+  drawnChances: many(drawnChances),
+  drawnCommunityChests: many(drawnCommunityChests),
   host: one(users, { fields: [games.id], references: [users.id] }),
   players: many(players),
   rolls: many(rolls),
