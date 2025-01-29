@@ -1,0 +1,1 @@
+ALTER TABLE "players" ADD COLUMN "is_in_jail" boolean DEFAULT false NOT NULL;
