@@ -1,8 +1,9 @@
 import { FastifyInstance } from 'fastify';
 import { games, players, rolls, turns } from './db/schemas/index.js';
-import { eq, ne } from 'drizzle-orm';
+import { eq } from 'drizzle-orm';
 
-export const avatars: Array<'dog' | 'hat' | 'iron' | 'racecar' | 'ship' | 'shoe' | 'thimble' | 'wheelbarrow'> = [
+// constants
+const avatars: Array<'dog' | 'hat' | 'iron' | 'racecar' | 'ship' | 'shoe' | 'thimble' | 'wheelbarrow'> = [
   'dog',
   'hat',
   'iron',
@@ -12,6 +13,8 @@ export const avatars: Array<'dog' | 'hat' | 'iron' | 'racecar' | 'ship' | 'shoe'
   'thimble',
   'wheelbarrow',
 ];
+const railroadRentBaseRent = 25;
+const utilityRentModifiers = { 1: 4, 2: 10 };
 
 export async function startGame(id: string, app: FastifyInstance) {
   // set game to ongoing
@@ -303,6 +306,22 @@ export async function playerMove(id: string, app: FastifyInstance) {
       }
     }
   });
+}
+
+function calculateRailroadRent(numberOfRailroads: number) {
+  if (numberOfRailroads < 1 || numberOfRailroads > 4) {
+    throw new Error('Invalid number of railroads');
+  }
+
+  return railroadRentBaseRent * Math.pow(2, numberOfRailroads - 1);
+}
+
+function calculateUtilityRent(numberOfUtilities: 1 | 2, totalRoll: number) {
+  if (numberOfUtilities < 1 || numberOfUtilities > 2) {
+    throw new Error('Invalid number of utilities');
+  }
+
+  return totalRoll * utilityRentModifiers[numberOfUtilities];
 }
 
 function determineNextTile(currentTileId: string, movement: number, tiles: Array<{ id: string; order: number }>) {
