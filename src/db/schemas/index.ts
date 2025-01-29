@@ -4,6 +4,7 @@ import {
   date,
   index,
   integer,
+  jsonb,
   pgTable,
   text,
   timestamp,
@@ -248,9 +249,12 @@ export const tiles = pgTable(
   {
     id: varchar().primaryKey(),
     groupId: varchar('group_id').references(() => tileGroups.id),
+    hotelCost: integer('hotel_cost'),
+    houseCost: integer('house_cost'),
     name: varchar('name').notNull(),
     order: integer('order').notNull(),
     price: integer('price'),
+    rents: jsonb('rents').$type<{ base: number; fullSet: number; hotel: number; houses: number[] }>(),
     type: varchar('type', { enum: ['property', 'railroad', 'special', 'tax', 'utility'] }).notNull(),
     // just lookup table, doesn't need timestamps
   },
